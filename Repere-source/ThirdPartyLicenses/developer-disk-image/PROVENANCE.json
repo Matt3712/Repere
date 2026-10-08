@@ -1,0 +1,9 @@
+{
+  "name": "developer_disk_image",
+  "version": "0.3.0",
+  "declared_license": "GPL-3.0-or-later",
+  "upstream_revision": "1daa8aa4adf12ab6974c2fac378685ce55dd3907",
+  "declaration_url": "https://raw.githubusercontent.com/doronz88/DeveloperDiskImage/1daa8aa4adf12ab6974c2fac378685ce55dd3907/pyproject.toml",
+  "license_text_url": "https://www.gnu.org/licenses/gpl-3.0.txt",
+  "license_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+}

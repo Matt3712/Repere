@@ -1,24 +1,33 @@
-REPÈRE 1.3 — INSTALLATION ET PREMIER DÉMARRAGE
+REPÈRE 1.4 — INSTALLATION ET PREMIER DÉMARRAGE
 
-Cette publication fournit les sources à compiler sur le Mac qui utilisera
-Repère. Prérequis : macOS 14+, outils de ligne de commande Xcode et Python 3.14.
-La compilation a été validée sur Apple Silicon. Intel n'a pas été validé.
+Mac Apple Silicon (M1 et suivants), macOS 14 ou ultérieur.
+Python et les dépendances de connexion sont inclus dans cette version.
+Il n'est pas nécessaire d'installer Python, Homebrew ou Xcode pour ouvrir l'app.
+Aucun binaire pour Mac Intel n'est fourni.
 
-CONSTRUIRE L'APP
+INSTALLER L'APP
 
-Depuis la racine des sources téléchargées :
+1. Ouvre Repere-1.4-AppleSilicon.dmg.
+2. Glisse Repere.app dans le dossier Applications.
+3. Éjecte le disque Repère, puis ouvre l'app depuis Applications.
+
+La signature est locale ; l'app n'est pas notariée par Apple.
+Si macOS bloque sa première ouverture, les instructions Apple sont ici :
+https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac
+
+Le DMG et sa somme SHA-256 sont disponibles sur :
+https://github.com/Matt3712/Repere/releases/tag/v1.4.0
+
+CONSTRUIRE LES SOURCES (FACULTATIF)
+
+Sur un Mac Apple Silicon avec les outils de ligne de commande Xcode :
 
   cd Repere-source
-  REPERE_PYTHON=python3.14 ./build.command
+  ./build.command
   open ../Repere.app
 
-Le script crée Repere.app à côté du dossier Repere-source et installe les
-dépendances épinglées. Déplace ensuite l'app dans Applications si tu le souhaites.
-Une compilation locale déjà faite pour ce Mac peut être ouverte directement.
-
-L'app reste liée au Python installé sur le Mac qui l'a construite. Un .app
-ou DMG local n'est pas une distribution portable pour d'autres ordinateurs.
-La signature est locale ; l'app n'est pas notariée par Apple.
+Le script télécharge le runtime et les dépendances épinglés puis construit
+l'app. ./package.command crée ensuite le DMG. Voir le README pour les tests.
 
 PREMIÈRE CONNEXION
 
@@ -57,5 +66,7 @@ Utilise « Arrêter et restaurer le GPS », puis vérifie la position réelle
 sur l'iPhone. Si la restauration échoue, reconnecte-le et réessaie.
 
 L'effet réel sur Localiser et Snapchat reste à valider sur iPhone physique.
-Le guide complet est fourni dans LISEZ-MOI.md.
+Guide complet sur GitHub :
+https://github.com/Matt3712/Repere/blob/main/LISEZ-MOI.md
+Une copie est également fournie dans les ressources de l'app (LISEZ-MOI.md).
 Sources : https://github.com/Matt3712/Repere

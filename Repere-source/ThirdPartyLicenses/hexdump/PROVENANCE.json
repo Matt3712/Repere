@@ -1,0 +1,9 @@
+{
+  "name": "hexdump",
+  "version": "3.3",
+  "declared_license": "Public Domain",
+  "license_text_url": "https://pypi.org/project/hexdump/3.3/",
+  "extracted_from": "hexdump-3.3.dist-info/METADATA, License and Credits sections",
+  "metadata_sha256": "f1fe9b1fbfff455fe8846677b57d2d97d1e558e9cdcf166b98bd9f1b4008cbc0",
+  "license_sha256": "b466ca5d2a8f91eff5cf3c22a6cb92f8213b73cffab771f560c68e58abdeb451"
+}

@@ -1,0 +1,18 @@
+{
+  "provider": "Astral python-build-standalone",
+  "release": "20261003",
+  "python_version": "3.14.8",
+  "target": "aarch64-apple-darwin",
+  "minimum_macos": "14.0",
+  "metadata_url": "https://api.github.com/repos/astral-sh/python-build-standalone/releases/tags/20261003",
+  "runtime": {
+    "filename": "cpython-3.14.8+20261003-aarch64-apple-darwin-install_only_stripped.tar.gz",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261003/cpython-3.14.8%2B20261003-aarch64-apple-darwin-install_only_stripped.tar.gz",
+    "sha256": "ed14e9042f36c0aa18383f5d9729bcbf17847e842666a793b5a5a5d8505c0ca1"
+  },
+  "licenses": {
+    "filename": "cpython-3.14.8+20261003-aarch64-apple-darwin-pgo+lto-full.tar.zst",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261003/cpython-3.14.8%2B20261003-aarch64-apple-darwin-pgo%2Blto-full.tar.zst",
+    "sha256": "6bb6e246d6c2bdfef5b33e833541c232d99afb37b67a08872f233649f4b64ca7"
+  }
+}

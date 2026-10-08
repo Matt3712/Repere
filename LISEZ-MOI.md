@@ -1,28 +1,34 @@
-# Repère 1.3 — simulation de position depuis le Mac
+# Repère 1.4 — simulation de position depuis le Mac
 
 Repère est une app Mac qui envoie des positions choisies au service de simulation développeur d’un iPhone. Elle propose une carte, une recherche de lieu, des coordonnées libres, des trajets et l’arrêt explicite de la simulation.
 
-La version 1.3 ajoute le mode **Aléatoire** : un déplacement continu dans un cercle, avec réglage du centre, du rayon, de la vitesse et commande de pause. Les modes **Position fixe**, **Trajet A → B** et **Aléatoire** se choisissent dans l’en-tête. Les commandes restent en bas de la fenêtre ; le bouton **Journal** affiche ou masque l’activité.
+La version 1.4 embarque Python et les dépendances de connexion pour fonctionner sans installation Python séparée. Les modes **Position fixe**, **Trajet A → B** et **Aléatoire** se choisissent dans l’en-tête. Les commandes restent en bas de la fenêtre ; le bouton **Journal** affiche ou masque l’activité.
 
 **Le fonctionnement sur un iPhone physique, y compris l’effet dans Localiser et Snapchat, reste à valider.** Une commande de simulation envoyée avec succès ne prouve pas que ces services afficheront ou partageront cette position. L’app présente cette distinction dans son état.
 
-## Installer depuis les sources
+## Installer l’app
 
-Le dépôt public fournit les sources à compiler sur le Mac qui utilisera Repère. Il faut **macOS 14 ou ultérieur**, les outils de ligne de commande Xcode et **Python 3.14** installé localement. La compilation a été validée sur Apple Silicon ; la compilation Intel n’a pas été validée.
+Sur un **Mac Apple Silicon (M1 et suivants), sous macOS 14 ou ultérieur**, télécharge le [DMG depuis GitHub](https://github.com/Matt3712/Repere/releases/download/v1.4.0/Repere-1.4-AppleSilicon.dmg), ouvre-le et glisse **Repere.app** dans **Applications**. Éjecte le disque puis ouvre l’app. Python et ses dépendances sont inclus. Aucun paquet Intel n’est fourni.
+
+L’app est signée localement et n’est pas notariée par Apple. Si macOS bloque sa première ouverture, consulte les [instructions officielles Apple](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac). La publication fournit aussi la somme SHA-256 du DMG.
+
+## Compiler les sources
+
+La compilation demande un Mac Apple Silicon et les outils de ligne de commande Xcode. Le script télécharge une distribution Python autonome dont la version et la somme SHA-256 sont épinglées.
 
 Depuis la racine du dépôt :
 
 ```sh
 cd Repere-source
-REPERE_PYTHON=python3.14 ./build.command
+./build.command
 open ../Repere.app
 ```
 
-Le script télécharge les dépendances épinglées, prépare un environnement Python isolé et crée `Repere.app` à côté du dossier des sources. Tu peux ensuite déplacer l’app dans Applications et l’ouvrir depuis le Finder. Elle reste liée au Python du Mac qui l’a construite : un `.app` ou un DMG assemblé localement n’est pas une distribution autonome pour d’autres ordinateurs. La signature est locale et l’app n’est pas notariée par Apple.
+Le script prépare le runtime embarqué, installe les dépendances épinglées et crée `Repere.app` à côté du dossier des sources. L’app n’utilise pas le Python du système. `./package.command` produit ensuite le DMG Apple Silicon.
 
 ## Démarrer
 
-1. Ouvre `Repere.app`, construite pour ce Mac. Si elle est déjà dans Applications, ouvre directement cette copie.
+1. Ouvre `Repere.app` depuis Applications.
 2. Branche l’iPhone en USB, déverrouille-le et accepte **Faire confiance à cet ordinateur** sur l’iPhone. Clique sur Actualiser si nécessaire.
 3. Sur l’iPhone, active **Réglages → Confidentialité et sécurité → Mode développeur**. Redémarre et confirme l’activation. Si ce réglage n’apparaît pas, clique d’abord sur **Préparer la connexion** : l’app tente de le rendre visible, puis te laisse l’activer toi-même. S’il reste absent, associe l’iPhone à Xcode sur le Mac, comme indiqué dans le guide Apple ci-dessous.
 4. Choisis ton iPhone et clique sur **Préparer la connexion**. L’app lit la version exacte d’iOS. La première préparation peut télécharger une image développeur et prendre plusieurs minutes ; garde Internet et le câble connectés.
@@ -83,8 +89,8 @@ Cette méthode ne permet pas de cibler une application séparément. Le service 
 - Ces services publics sont prévus ici pour un usage personnel modéré : recherche uniquement à la demande, cache des résultats et aucune fonction de téléchargement hors ligne. [Conditions des tuiles OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/) et [service Photon](https://github.com/komoot/photon#demo-server). Le service de recherche peut être remplacé par un serveur Photon via la variable `REPERE_GEOCODER_URL`.
 - Les services USB et les téléchargements développeur utilisent `pymobiledevice3` version 11.20.2. Ses dépendances et licences sont incluses dans l’environnement Python de l’app.
 - Les données de connexion et images développeur sont stockées dans `~/Library/Application Support/Repere`. Ces données peuvent inclure les informations d’association au téléphone : elles doivent rester sur ton Mac.
-- La compilation utilise Python 3.14 installé localement. Son environnement isolé conserve cette dépendance au Mac qui l’a construite ; il ne rend pas l’app portable vers un autre ordinateur.
-- Pour reconstruire sur un autre Mac, installe les outils de ligne de commande Xcode et Python 3.14, puis suis les commandes de la section Installation. Les versions de dépendances sont fixées dans `requirements.txt` et `requirements.lock`.
+- Python 3.14 et les dépendances sont embarqués dans le paquet. Le lancement isolé ignore les variables et les paquets Python personnels du Mac.
+- Pour reconstruire l’app, suis la section Compiler les sources. Le runtime est fixé dans `runtime-manifest.json` et les dépendances dans `requirements.txt` et `requirements.lock`.
 - Les trajets directs et le déplacement aléatoire sont calculés localement. Les informations d’association au téléphone et les images développeur ne font pas partie des sources publiques.
 
 ## Vérification et limites
@@ -96,12 +102,12 @@ Si tu ouvres `Map/index.html` directement, il s’agit seulement d’un aperçu 
 Pour lancer les tests depuis le dossier des sources :
 
 ```sh
-../Repere.app/Contents/Resources/runtime/bin/python3 -m unittest discover -s . -p 'test_*.py'
+../Repere.app/Contents/Resources/runtime/bin/python3 -I -B -m unittest discover -s . -p 'test_*.py'
 ./test_model.command
 node test_map.cjs
 ```
 
-Le dernier contrôle nécessite Node.js. Le projet est distribué sous [GNU GPL version 3](Repere-source/LICENSE) ; les composants tiers conservent leurs licences et attributions. Le [README](README.md) présente le projet et les crédits.
+Le dernier contrôle nécessite Node.js. Le projet est distribué sous [GNU GPL version 3](Repere-source/LICENSE) ; les composants tiers conservent leurs licences et attributions. Le [README](README.md) présente le projet.
 
 ## Sources techniques
 

@@ -26,6 +26,10 @@ import sys
 import threading
 import time
 
+# Isolated Python (-I) excludes the script directory. Allow only this bundled
+# resource directory for the sibling wireless module, never the caller's cwd.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 
 def emit(kind: str, **fields) -> None:
     try:

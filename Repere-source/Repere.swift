@@ -3,6 +3,8 @@ import CoreLocation
 import WebKit
 import AppKit
 
+private let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.4"
+
 private let ink = Color(red: 0.94, green: 0.95, blue: 0.97)
 private let accent = Color(red: 0.04, green: 0.52, blue: 1.0)
 private let canvas = Color(red: 0.075, green: 0.082, blue: 0.096)
@@ -129,11 +131,14 @@ final class BridgeProcess {
                 "Le moteur de connexion manque dans cette copie de Repère. Ouvrez l’application complète générée par le script de construction."])
         }
         process.executableURL = python
-        process.arguments = ["-u", bridge.path] + arguments
+        process.arguments = ["-I", "-B", "-u", bridge.path] + arguments
         process.currentDirectoryURL = resources
         var environment = ProcessInfo.processInfo.environment
-        environment["PYTHONUNBUFFERED"] = "1"
-        environment["PYTHONDONTWRITEBYTECODE"] = "1"
+        // Python runs isolated: ignore host Python paths, user packages and
+        // startup hooks. -u/-B replace the ignored environment flags.
+        for key in environment.keys.filter({ $0.hasPrefix("PYTHON") }) {
+            environment.removeValue(forKey: key)
+        }
         process.environment = environment
         process.standardInput = input
         process.standardOutput = output
@@ -419,7 +424,7 @@ final class RepereModel: ObservableObject {
         url.queryItems = [URLQueryItem(name: "overview", value: "full"), URLQueryItem(name: "geometries", value: "geojson"), URLQueryItem(name: "steps", value: "false")]
         guard let endpoint = url.url else { return }
         var request = URLRequest(url: endpoint, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 25)
-        request.setValue("Repere/1.1 (personal macOS route simulation)", forHTTPHeaderField: "User-Agent")
+        request.setValue("Repere/\(appVersion) (+https://github.com/Matt3712/Repere)", forHTTPHeaderField: "User-Agent")
         lastRouteDate = Date()
         let token = UUID()
         routeRequestID = token
@@ -487,7 +492,7 @@ final class RepereModel: ObservableObject {
         url.queryItems = [URLQueryItem(name: "q", value: query), URLQueryItem(name: "limit", value: "5"), URLQueryItem(name: "lang", value: "fr")]
         guard let endpoint = url.url, endpoint.scheme == "https" else { return }
         var request = URLRequest(url: endpoint, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-        request.setValue("Repere/1.0 (personal macOS location tool)", forHTTPHeaderField: "User-Agent")
+        request.setValue("Repere/\(appVersion) (+https://github.com/Matt3712/Repere)", forHTTPHeaderField: "User-Agent")
         let current = UUID()
         searchID = current
         searching = true
@@ -843,7 +848,7 @@ struct LocationMap: NSViewRepresentable {
         let config = WKWebViewConfiguration()
         config.userContentController.add(context.coordinator, name: "repere")
         let view = WKWebView(frame: NSRect(x: 0, y: 0, width: 800, height: 700), configuration: config)
-        view.customUserAgent = "Repere/1.0 (personal macOS application; WebKit)"
+        view.customUserAgent = "Repere/\(appVersion) (+https://github.com/Matt3712/Repere; WebKit)"
         view.navigationDelegate = context.coordinator
         context.coordinator.webView = view
         let resources = ProcessInfo.processInfo.environment["REPERE_RESOURCES"].map { URL(fileURLWithPath: $0) } ?? Bundle.main.resourceURL!
@@ -989,7 +994,7 @@ struct RepereView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 8) {
                         Text("Repère").font(.system(size: 24, weight: .bold, design: .rounded))
-                        Text("v1.3").font(.system(size: 10, weight: .bold, design: .monospaced))
+                        Text("v\(appVersion)").font(.system(size: 10, weight: .bold, design: .monospaced))
                             .foregroundStyle(Color(red: 0.38, green: 0.68, blue: 1))
                             .padding(.horizontal, 7).padding(.vertical, 4).background(accent.opacity(0.13), in: Capsule())
                     }

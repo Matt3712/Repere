@@ -1,6 +1,6 @@
 # Repère
 
-![Version 1.3](https://img.shields.io/badge/version-1.3-4F8CFF)
+![Version 1.4](https://img.shields.io/badge/version-1.4-4F8CFF)
 ![macOS 14+](https://img.shields.io/badge/macOS-14%2B-202631)
 ![SwiftUI](https://img.shields.io/badge/interface-SwiftUI-FA7343)
 [![GPL-3.0](https://img.shields.io/badge/licence-GPL--3.0-blue)](Repere-source/LICENSE)
@@ -9,11 +9,13 @@
 
 Repère permet de choisir une position, de suivre un trajet A → B ou de se déplacer continuellement dans un cercle. L’interface native réunit la carte, les réglages de déplacement, la connexion à l’iPhone et le journal de session.
 
+**[⬇ Télécharger le DMG — Mac Apple Silicon](https://github.com/Matt3712/Repere/releases/download/v1.4.0/Repere-1.4-AppleSilicon.dmg)** · **[📖 Guide d’utilisation](https://github.com/Matt3712/Repere/blob/main/LISEZ-MOI.md)** · [Toutes les versions](https://github.com/Matt3712/Repere/releases)
+
 ![Illustration de Repère : carte, trajet et zone de déplacement aléatoire](docs/assets/repere-hero.svg)
 
 *Illustration de présentation ; il ne s’agit pas d’une capture d’écran.*
 
-Cette publication fournit les **sources à compiler sur son Mac**. Le fonctionnement sur un iPhone physique, y compris l’effet dans Localiser et Snapchat, reste à valider. Une commande envoyée au service développeur ne confirme pas la position affichée ou partagée par ces apps.
+La version 1.4 intègre Python et les dépendances de connexion : aucune installation de Python ou compilation n’est nécessaire pour utiliser le DMG. Le fonctionnement sur un iPhone physique, y compris l’effet dans Localiser et Snapchat, reste à valider. Une commande envoyée au service développeur ne confirme pas la position affichée ou partagée par ces apps.
 
 ## Fonctionnalités
 
@@ -31,28 +33,37 @@ Le mode Aléatoire relie des points tirés dans le cercle par des segments direc
 
 | Élément | État |
 | --- | --- |
-| **Mac** | macOS 14 ou ultérieur. Compilation et tests réalisés sur Apple Silicon. Compilation Intel non validée. |
-| **Construction** | Outils de ligne de commande Xcode et **Python 3.14** installé localement. Dépendances Python épinglées. |
+| **Mac** | macOS 14 ou ultérieur, **Apple Silicon (M1 et suivants)**. Aucun binaire Intel fourni. |
+| **Installation** | DMG autonome avec CPython et les dépendances embarqués. Aucun Python à installer. |
+| **Construction des sources** | Mac Apple Silicon et outils de ligne de commande Xcode. Le script télécharge le runtime Python épinglé et vérifie son SHA-256. |
 | **iPhone** | Association au Mac et services développeur disponibles ; mode développeur activé lorsqu’il est requis. La compatibilité dépend de la version d’iOS. |
 | **Wi-Fi** | Mac éveillé, Repère ouvert et iPhone sur le même réseau. Le code exclut iOS 17.0–17.3 pour ce transport. Fonctionnement sur appareil non validé. |
 
 Repère utilise les services de simulation développeur de l’iPhone. Il ne permet pas de cibler séparément Snapchat ou Localiser et ne masque pas l’indicateur de position simulée exposé par iOS. Aucun fonctionnement autonome avec le Mac éteint ou déconnecté du réseau n’est proposé.
 
-## Installation depuis les sources
+## Installation
 
-Installe les outils de ligne de commande Xcode (`xcode-select --install`) et Python 3.14, puis clone le dépôt :
+1. Télécharge **[Repere-1.4-AppleSilicon.dmg](https://github.com/Matt3712/Repere/releases/download/v1.4.0/Repere-1.4-AppleSilicon.dmg)**.
+2. Ouvre le DMG et glisse **Repere.app** dans **Applications**.
+3. Éjecte le disque, puis ouvre Repère depuis Applications.
+
+Le paquet est signé localement, mais **n’est pas notarié par Apple**. macOS peut bloquer sa première ouverture ; consulte les [instructions Apple sur les apps de développeurs non identifiés](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac). Une somme SHA-256 du DMG est jointe à la publication.
+
+## Compiler depuis les sources
+
+Sur un Mac Apple Silicon, installe les outils de ligne de commande Xcode (`xcode-select --install`), puis clone le dépôt :
 
 ```sh
 git clone https://github.com/Matt3712/Repere.git
 cd Repere
 cd Repere-source
-REPERE_PYTHON=python3.14 ./build.command
+./build.command
 open ../Repere.app
 ```
 
-Le script compile l’app dans **`../Repere.app`**, prépare son environnement Python isolé et applique une signature locale. Tu peux ensuite déplacer l’app dans Applications et l’ouvrir depuis le Finder.
+Le script compile l’app dans **`../Repere.app`**, embarque le runtime CPython autonome et installe les dépendances épinglées. Il construit le paquet dans un dossier temporaire avant de remplacer la copie précédente. Internet est nécessaire lors de la construction.
 
-L’app compilée reste liée au Python installé sur le Mac qui l’a construite. Copier son `.app` ou un DMG local sur un autre ordinateur ne constitue donc pas une installation portable. Cette version n’est pas notariée par Apple ; aucun DMG autonome n’est publié ici.
+Pour créer le DMG, lance `./package.command`. Le runtime et sa provenance sont décrits dans [`runtime-manifest.json`](Repere-source/runtime-manifest.json). Les licences embarquées sont conservées dans les ressources de l’app.
 
 ## Première connexion
 
@@ -90,7 +101,7 @@ Les sources SwiftUI, le pont Python et la carte se trouvent dans [`Repere-source
 Depuis ce dossier, après construction :
 
 ```sh
-../Repere.app/Contents/Resources/runtime/bin/python3 -m unittest discover -s . -p 'test_*.py'
+../Repere.app/Contents/Resources/runtime/bin/python3 -I -B -m unittest discover -s . -p 'test_*.py'
 ./test_model.command
 node test_map.cjs
 ```

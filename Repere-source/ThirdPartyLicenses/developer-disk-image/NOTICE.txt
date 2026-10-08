@@ -1,0 +1,1 @@
+developer_disk_image 0.3.0 declares GPL version 3 or later in its published package metadata and tagged pyproject.toml. The tagged repository omits its referenced LICENSE file. The included GPLv3 text is copied unmodified from the Free Software Foundation. The complete Python package source is included under runtime/lib/python3.14/site-packages/developer_disk_image.

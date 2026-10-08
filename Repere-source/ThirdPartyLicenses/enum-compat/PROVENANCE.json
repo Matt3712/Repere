@@ -1,0 +1,9 @@
+{
+  "name": "enum-compat",
+  "version": "0.0.3",
+  "declared_license": "MIT",
+  "upstream_revision": "ae41cfa712e837596f7d26a5283be40ec5b84084",
+  "declaration_url": "https://raw.githubusercontent.com/jstasiak/enum-compat/ae41cfa712e837596f7d26a5283be40ec5b84084/setup.py",
+  "license_text_url": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt",
+  "license_sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5"
+}

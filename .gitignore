@@ -1,6 +1,7 @@
 # Built apps, local runtimes and installers are generated on each Mac.
 *.app/
 *.dmg
+*.dmg.sha256
 *.zip
 *.log
 .DS_Store
@@ -9,6 +10,9 @@ __pycache__/
 .venv/
 runtime/
 .build/
+.repere-backups/
+.repere-build.*/
+.repere-package.*/
 swift-cache/
 .env
 .env.*

@@ -13,7 +13,7 @@
   <path d="M108 83 89 124q-3 7 4 4l15-8 15 8q7 3 4-4z" fill="white"/>
   <text x="163" y="119" fill="#f4f7ff" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="44" font-weight="700">Repère</text>
   <rect x="323" y="90" width="65" height="31" rx="15" fill="#287aff" fill-opacity=".16"/>
-  <text x="355" y="111" text-anchor="middle" fill="#79b2ff" font-family="monospace" font-size="16">v1.3</text>
+  <text x="355" y="111" text-anchor="middle" fill="#79b2ff" font-family="monospace" font-size="16">v1.4</text>
   <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
     <text x="72" y="243" fill="#f4f7ff" font-size="49" font-weight="700">Choisissez votre</text>
     <text x="72" y="306" fill="#f4f7ff" font-size="49" font-weight="700">prochain point.</text>
