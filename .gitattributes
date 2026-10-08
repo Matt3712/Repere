@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.icns binary
+Repere-source/Map/leaflet.js linguist-vendored
+Repere-source/Map/leaflet.css linguist-vendored

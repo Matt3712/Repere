@@ -1,0 +1,22 @@
+# Built apps, local runtimes and installers are generated on each Mac.
+*.app/
+*.dmg
+*.zip
+*.log
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+runtime/
+.build/
+swift-cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.mobileprovision
+# Personal verification notes and source archives stay on this Mac.
+VERIFICATION.md
+Repere-source-*.tar.gz
