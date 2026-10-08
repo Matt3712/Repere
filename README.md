@@ -102,14 +102,3 @@ Node.js est nécessaire uniquement pour le test de la carte. La validation compr
 La carte charge les tuiles OpenStreetMap ; les recherches sont envoyées à Photon et les demandes d’itinéraire routier à OSRM. Les segments directs et le déplacement aléatoire sont calculés localement. Les serveurs publics nécessitent Internet et leur disponibilité n’est pas garantie.
 
 L’app ne demande aucun identifiant Apple ou Snapchat. Les informations d’association et les images développeur restent dans `~/Library/Application Support/Repere`. Le guide décrit les services utilisés et les options de serveur personnel.
-
-## Crédits et licence
-
-- [pymobiledevice3](https://github.com/doronz88/pymobiledevice3) — communication avec les services développeur de l’iPhone.
-- [Leaflet](https://leafletjs.com/) — carte interactive.
-- [OpenStreetMap et ses contributeurs](https://www.openstreetmap.org/copyright) — données cartographiques.
-- [Photon](https://github.com/komoot/photon) — recherche de lieux.
-- [OSRM](https://project-osrm.org/) — calcul des itinéraires routiers.
-- [AirCard](https://github.com/Mak5er/AirCard) — inspiration pour la présentation de l’interface et l’organisation de la documentation. Le texte et les visuels de Repère sont propres à ce projet.
-
-Repère est distribué sous [GNU GPL version 3](Repere-source/LICENSE). Les composants tiers conservent leurs licences et attributions.
