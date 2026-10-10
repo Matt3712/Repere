@@ -13,7 +13,6 @@ Repère permet de choisir une position, de suivre un trajet A → B ou de se dé
 
 ![Illustration de Repère : carte, trajet et zone de déplacement aléatoire](docs/assets/repere-hero.svg)
 
-*Illustration de présentation ; il ne s’agit pas d’une capture d’écran.*
 
 La version 1.4 intègre Python et les dépendances de connexion : aucune installation de Python ou compilation n’est nécessaire pour utiliser le DMG. Le fonctionnement sur un iPhone physique, y compris l’effet dans Localiser et Snapchat, reste à valider. Une commande envoyée au service développeur ne confirme pas la position affichée ou partagée par ces apps.
 
@@ -41,14 +40,6 @@ Le mode Aléatoire relie des points tirés dans le cercle par des segments direc
 
 Repère utilise les services de simulation développeur de l’iPhone. Il ne permet pas de cibler séparément Snapchat ou Localiser et ne masque pas l’indicateur de position simulée exposé par iOS. Aucun fonctionnement autonome avec le Mac éteint ou déconnecté du réseau n’est proposé.
 
-## Installation
-
-1. Télécharge **[Repere-1.4-AppleSilicon.dmg](https://github.com/Matt3712/Repere/releases/download/v1.4.0/Repere-1.4-AppleSilicon.dmg)**.
-2. Ouvre le DMG et glisse **Repere.app** dans **Applications**.
-3. Éjecte le disque, puis ouvre Repère depuis Applications.
-
-Le paquet est signé localement, mais **n’est pas notarié par Apple**. macOS peut bloquer sa première ouverture ; consulte les [instructions Apple sur les apps de développeurs non identifiés](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac). Une somme SHA-256 du DMG est jointe à la publication.
-
 ## Compiler depuis les sources
 
 Sur un Mac Apple Silicon, installe les outils de ligne de commande Xcode (`xcode-select --install`), puis clone le dépôt :
@@ -74,25 +65,6 @@ Pour créer le DMG, lance `./package.command`. Le runtime et sa provenance sont 
 
 Le [guide complet](LISEZ-MOI.md) décrit les prérequis et les étapes de dépannage.
 
-## Utilisation
-
-### Position fixe
-
-Choisis **Position fixe**, place un repère ou recherche un lieu, vérifie les coordonnées puis clique sur **Appliquer la position**.
-
-### Trajet A → B
-
-Choisis **Trajet A → B**, place le départ et l’arrivée, puis sélectionne **Par la route** ou **Ligne directe** et clique sur **Tracer le trajet**. Règle une durée en minutes ou une vitesse, puis lance **Démarrer le trajet**. Les pauses prolongent la durée totale ; B reste maintenu à l’arrivée jusqu’à l’arrêt.
-
-### Déplacement aléatoire
-
-Choisis **Aléatoire**, place le centre du cercle par un clic, une recherche ou des coordonnées, puis règle le rayon et la vitesse. Clique sur **Démarrer l’aléatoire**. Le déplacement commence au centre, reste dans le cercle et se poursuit jusqu’à **Arrêter et restaurer le GPS**.
-
-### Sans câble, sur le même réseau
-
-Avec l’iPhone encore branché, active **Finder → iPhone → Général → Afficher cet iPhone lorsqu’il est en Wi-Fi**, puis **Appliquer**. Arrête la simulation USB, débranche le câble, sélectionne **Wi-Fi** dans Repère, actualise et prépare la connexion à nouveau. Le Mac doit rester éveillé et connecté au même réseau que l’iPhone. Ce transport reste à vérifier sur appareil réel.
-
-Pour terminer une session, utilise **Arrêter et restaurer le GPS**, puis vérifie la position réelle sur l’iPhone. Si la restauration échoue, reconnecte l’appareil et réessaie ; redémarre-le si nécessaire.
 
 ## Sources et validation
 
@@ -105,11 +77,3 @@ Depuis ce dossier, après construction :
 ./test_model.command
 node test_map.cjs
 ```
-
-Node.js est nécessaire uniquement pour le test de la carte. La validation comprend **86 tests Python**, **21 scénarios du modèle Swift** et les contrôles du protocole de carte. Les transports des tests sont simulés : ces résultats ne valident pas le GPS réel, Localiser, Snapchat ou une session Wi-Fi sur iPhone. Les limites sont détaillées dans le [rapport de vérification](docs/VALIDATION.md).
-
-## Services et données
-
-La carte charge les tuiles OpenStreetMap ; les recherches sont envoyées à Photon et les demandes d’itinéraire routier à OSRM. Les segments directs et le déplacement aléatoire sont calculés localement. Les serveurs publics nécessitent Internet et leur disponibilité n’est pas garantie.
-
-L’app ne demande aucun identifiant Apple ou Snapchat. Les informations d’association et les images développeur restent dans `~/Library/Application Support/Repere`. Le guide décrit les services utilisés et les options de serveur personnel.
