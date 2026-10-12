@@ -28,16 +28,6 @@ La version 1.4 intègre Python et les dépendances de connexion : aucune install
 
 Le mode Aléatoire relie des points tirés dans le cercle par des segments directs. Il ne suit ni les routes, ni les bâtiments, ni les obstacles. Les modes Trajet et Aléatoire disposent de commandes **Pause** et **Reprendre**.
 
-## Compatibilité
-
-| Élément | État |
-| --- | --- |
-| **Mac** | macOS 14 ou ultérieur, **Apple Silicon (M1 et suivants)**. Aucun binaire Intel fourni. |
-| **Installation** | DMG autonome avec CPython et les dépendances embarqués. Aucun Python à installer. |
-| **Construction des sources** | Mac Apple Silicon et outils de ligne de commande Xcode. Le script télécharge le runtime Python épinglé et vérifie son SHA-256. |
-| **iPhone** | Association au Mac et services développeur disponibles ; mode développeur activé lorsqu’il est requis. La compatibilité dépend de la version d’iOS. |
-| **Wi-Fi** | Mac éveillé, Repère ouvert et iPhone sur le même réseau. Le code exclut iOS 17.0–17.3 pour ce transport. Fonctionnement sur appareil non validé. |
-
 Repère utilise les services de simulation développeur de l’iPhone. Il ne permet pas de cibler séparément Snapchat ou Localiser et ne masque pas l’indicateur de position simulée exposé par iOS. Aucun fonctionnement autonome avec le Mac éteint ou déconnecté du réseau n’est proposé.
 
 ## Compiler depuis les sources
